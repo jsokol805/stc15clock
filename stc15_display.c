@@ -46,15 +46,14 @@ void digit(unsigned char pos, unsigned char val, __bit dot) {
   P2 = 0xFF;
 }
 
-void show_time(unsigned char hours, unsigned char minutes) {
-  unsigned char hours_upper = hours / 10;
-  unsigned char hours_lower = hours % 10;
-  unsigned char minutes_upper = minutes / 10;
-  unsigned char minutes_lower = minutes % 10;
-
-  digit(0, minutes_lower, 0);
-  digit(1, minutes_upper, 0);
-  digit(2, hours_lower, 1);
-  digit(3, hours_upper ? hours_upper : 10, 0);
+void show_time(unsigned char hours_high,
+               unsigned char hours_low,
+               unsigned char minutes_high,
+               unsigned char minutes_low,
+               __bit seconds_mark) {
+  digit(0, minutes_low, 0);
+  digit(1, minutes_high, 0);
+  digit(2, hours_low, seconds_mark);
+  digit(3, hours_high ? hours_high : 10, 0);
 }
 

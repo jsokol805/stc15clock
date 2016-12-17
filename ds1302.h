@@ -33,5 +33,8 @@ void ds1302_get_time(unsigned char*, unsigned char*, unsigned char*,
 void ds1302_set_time(unsigned char, unsigned char, unsigned char,
                      unsigned char);
 
+void ds1302_increase_hour();
+void ds1302_increase_minute();
+
 #endif  // __STC15_DS1302_H_
 

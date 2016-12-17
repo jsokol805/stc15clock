@@ -84,11 +84,11 @@ void ds1302_set_time(unsigned char hours_high,
   unsigned char hours, minutes, seconds;
 
   hours = (DS1302_MODE24 << 4)
-        | ((hours_high & HOUR_HIGH) << 4)
+        | (hours_high << 4)
         | (hours_low & HOUR_LOW);
   ds1302_write(DS1302_HOUR_WRITE, hours);
 
-  minutes = ((minutes_high & MINUTE_HIGH) << 4)
+  minutes = (minutes_high << 4)
           | (minutes_low & MINUTE_LOW);
   ds1302_write(DS1302_MINUTE_WRITE, minutes);
   
@@ -98,5 +98,23 @@ void ds1302_set_time(unsigned char hours_high,
 
 void ds1302_init() {
   ds1302_write(DS1302_WRITE_PROTECT, DS1302_WP_OFF_VALUE);
+}
+
+void ds1302_increase_hour() {
+  unsigned char hour, tmp;
+  tmp  =  ds1302_read(DS1302_HOUR_READ);
+  hour = ((tmp & HOUR_HIGH) >> 4) * 10 + (tmp & HOUR_LOW);
+  hour = (hour + 1) % 24;
+  tmp  = ((hour / 10) << 4) | (hour % 10);
+  ds1302_write(DS1302_HOUR_WRITE, tmp);
+}
+
+void ds1302_increase_minute() {
+  unsigned char minute, tmp;
+  tmp    = ds1302_read(DS1302_MINUTE_READ);
+  minute = ((tmp & MINUTE_HIGH) >> 4) * 10 + (tmp & MINUTE_LOW);
+  minute = (minute + 1) % 60;
+  tmp    = ((minute / 10) << 4) | (minute % 10);
+  ds1302_write(DS1302_MINUTE_WRITE, tmp);
 }
 

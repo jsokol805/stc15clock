@@ -43,6 +43,7 @@ void digit(unsigned char pos, unsigned char val, __bit dot) {
 
   P2 = dot ? 0x7F : 0xFF;
   timer_delay();
+  P2 = 0xFF;
 }
 
 void show_time(unsigned char hours, unsigned char minutes) {

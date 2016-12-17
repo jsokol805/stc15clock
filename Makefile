@@ -2,13 +2,14 @@
 	packihx $< > $@
 
 %.ihx : %.c stc15_buttons.rel stc15_display.rel ds1302.rel
-	sdcc -mmcs51 $?
+	sdcc -mmcs51 $^
 
-%.rel : %.c
+%.rel : %.c %.h
 	sdcc -mmcs51 -c $<
 
+.PHONY: all
 all: stc15clock.hex
 
 .PHONY: clean
 clean:
-	rm stc15clock.hex
+	rm -f *.asm *.rel *.lst *.rst *.hex *.mem *.map *.sym *.lnk *.ihx

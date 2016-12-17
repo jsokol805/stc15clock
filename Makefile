@@ -12,4 +12,4 @@ all: stc15clock.hex
 
 .PHONY: clean
 clean:
-	rm -f *.asm *.rel *.lst *.rst *.hex *.mem *.map *.sym *.lnk *.ihx
+	$(RM) *.asm *.rel *.lst *.rst *.hex *.mem *.map *.sym *.lnk *.ihx

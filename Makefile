@@ -1,7 +1,7 @@
 %.hex : %.ihx
 	packihx $< > $@
 
-%.ihx : %.c stc15_display.rel
+%.ihx : %.c stc15_display.rel ds1302.rel
 	sdcc -mmcs51 $?
 
 %.rel : %.c

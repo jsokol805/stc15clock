@@ -66,15 +66,15 @@ void ds1302_get_time(unsigned char* hours_high,
                      unsigned char* minutes_low,
                      unsigned char* seconds_mark) {
   unsigned char hours, minutes, seconds;
-  hours = ds1302_read(0x85);
-  minutes =  ds1302_read(0x83);
-  seconds = ds1302_read(0x81);
+  hours   = ds1302_read(DS1302_HOUR_READ);
+  minutes = ds1302_read(DS1302_MINUTE_READ);
+  seconds = ds1302_read(DS1302_SECOND_READ);
 
   *seconds_mark = seconds & 0x01;
-  *hours_high = (hours & 0x30) >> 4;
-  *hours_low = hours & 0x0F;
-  *minutes_high = (minutes & 0x50) >> 4;
-  *minutes_low = (minutes & 0x0F);
+  *hours_high   = (hours & HOUR_HIGH) >> 4;
+  *hours_low    = hours & HOUR_LOW;
+  *minutes_high = (minutes & MINUTE_HIGH) >> 4;
+  *minutes_low  = (minutes & MINUTE_LOW);
 }
 
 void ds1302_set_time(unsigned char hours_high,
@@ -83,17 +83,20 @@ void ds1302_set_time(unsigned char hours_high,
                      unsigned char minutes_low) {
   unsigned char hours, minutes, seconds;
 
-  hours = (0x01 << 4) | ((hours_high & 0x03) << 4) | (hours_low & 0x0F);
-  ds1302_write(0x84, hours);
+  hours = (DS1302_MODE24 << 4)
+        | ((hours_high & HOUR_HIGH) << 4)
+        | (hours_low & HOUR_LOW);
+  ds1302_write(DS1302_HOUR_WRITE, hours);
 
-  minutes = ((minutes_high & 0x05) << 4) | (minutes_low & 0x0F);
-  ds1302_write(0x82, minutes);
+  minutes = ((minutes_high & MINUTE_HIGH) << 4)
+          | (minutes_low & MINUTE_LOW);
+  ds1302_write(DS1302_MINUTE_WRITE, minutes);
   
   seconds = 0x00;
-  ds1302_write(0x80, seconds);
+  ds1302_write(DS1302_SECOND_WRITE, seconds);
 }
 
 void ds1302_init() {
-  ds1302_write(0x8E, 0);
+  ds1302_write(DS1302_WRITE_PROTECT, DS1302_WP_OFF_VALUE);
 }
 

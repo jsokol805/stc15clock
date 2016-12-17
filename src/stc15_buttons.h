@@ -8,7 +8,11 @@
 #define MINUTE_BTN 1
 #define MINUTE_PIN P3_0
 
-void button_check(unsigned char index, unsigned char value, void (*action)());
+/* checks button state and calls 'action' if state changes to high */
+void button_check(unsigned char /* index */,
+                  unsigned char /* value */,
+                  void (* /* action */)());
+
 void read_buttons();
 
 #endif  // __STC15_BUTTONS_H_

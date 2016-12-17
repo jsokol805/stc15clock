@@ -4,11 +4,6 @@
 
 #include "ds1302.h"
 
-#define HOUR_BTN 0
-#define HOUR_PIN P3_1
-#define MINUTE_BTN 1
-#define MINUTE_PIN P3_0
-
 unsigned char buttons[2] = {0, 0};
 
 void button_check(unsigned char index, unsigned char value, void (*action)()) {

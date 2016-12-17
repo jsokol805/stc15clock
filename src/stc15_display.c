@@ -26,7 +26,7 @@ unsigned char masks[7] = {
 };
 
 void timer_delay() {
-  TMOD = 0x03;     // Timer 0, mode 3
+  TMOD = 0x01;     // Timer 0, mode 3
   TH0 = 0xFF;
   TR0 = 1;         // Start timer
   while (TF0==0);

@@ -1,5 +1,7 @@
 #include "stc15_dusk.h"
 
+#define STC15_LIGHT_THRESHOLD 219
+
 unsigned char dusk_value = 0;
 
 void nop_wait() {
@@ -25,6 +27,6 @@ void stc15_update_light_state() {
 }
 
 unsigned char stc15_is_low_light() {
-  return dusk_value > 219;
+  return dusk_value > STC15_LIGHT_THRESHOLD;
 }
 

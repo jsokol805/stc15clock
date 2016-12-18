@@ -15,7 +15,6 @@
 
 void stc15_dusk_init();
 
-/* should be called periodically */
 void stc15_update_light_state();
 
 unsigned char stc15_is_low_light();

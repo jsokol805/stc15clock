@@ -114,5 +114,8 @@ void ds1302_increase_minute() {
   minute = (minute + 1) % 60;
   tmp    = ((minute / 10) << 4) | (minute % 10);
   ds1302_write(DS1302_MINUTE_WRITE, tmp);
+
+  if(tmp == 0)
+    ds1302_increase_hour();
 }
 

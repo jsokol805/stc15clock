@@ -7,6 +7,14 @@
 #include "stc15_display.h"
 #include "stc15_dusk.h"
 
+enum CLOCK_STATE {
+  TIME = 0,
+  DUSK_SETTING,
+  CLOCK_STATE_COUNT
+};
+
+uint8_t current_state = TIME;
+
 void reset_io() {
   P2 = 0xFF;
   // reset bits P3_2..5
@@ -36,6 +44,22 @@ void check_low_light() {
   }
 }
 
+void check_buttons() {
+  if(stc15_button_check(UPPER_BTN, UPPER_PIN))
+    current_state = (current_state + 1) % CLOCK_STATE_COUNT;
+
+  if(stc15_button_check(LOWER_BTN, LOWER_PIN)) {
+    switch(current_state) {
+      case TIME:
+        ds1302_increase_minute();
+        break;
+      case DUSK_SETTING:
+        stc15_dusk_change_activate_threshold(1);
+        break;
+    }
+  }
+}
+
 void main() {
   uint8_t hours_high, hours_low, minutes_high, minutes_low, seconds_mark;
   reset_io();
@@ -44,9 +68,20 @@ void main() {
   stc15_dusk_init();
 
   while(1) {
-    ds1302_get_time(&hours_high, &hours_low, &minutes_high, &minutes_low, &seconds_mark);
-    stc15_show_time(hours_high, hours_low, minutes_high, minutes_low, seconds_mark);
-    read_buttons();
+    check_buttons();
+    switch(current_state) {
+      case TIME:
+        ds1302_get_time(&hours_high, &hours_low,
+                        &minutes_high, &minutes_low,
+                        &seconds_mark);
+        stc15_show_time(hours_high, hours_low,
+                        minutes_high, minutes_low,
+                        seconds_mark);
+        break;
+      case DUSK_SETTING:
+        stc15_show_byte(stc15_dusk_activate_threshold);
+        break;
+    }
     check_low_light();
   }
 }

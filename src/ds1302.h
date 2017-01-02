@@ -2,6 +2,7 @@
 #define __STC15_DS1302_H_
 
 #include <8052.h>
+#include <stdint.h>
 
 /* ds1302.h - interface for 3-wire communication with Maxim DS1302 RTC chip. */
 
@@ -28,8 +29,8 @@
 
 /* 'internal' set of functions - you shouldn't use them outside of ds1302.c */
 void _3wire_reset();
-void _3wire_write(unsigned char);
-unsigned char _3wire_read();
+void _3wire_write(uint8_t /* data */);
+uint8_t _3wire_read();
 
 /*
 *  DS1302 write protection bit state on power-on is not guaranteed
@@ -37,19 +38,19 @@ unsigned char _3wire_read();
 */
 void ds1302_init();
 
-void ds1302_write(unsigned char /* address */, unsigned char /* data */);
+void ds1302_write(uint8_t /* address */, uint8_t /* data */);
 
-void ds1302_get_time(unsigned char* /* hours_high */,
-                     unsigned char* /* hours_low  */,
-                     unsigned char* /* minutes_high */,
-                     unsigned char* /* minutes_low  */,
-                     unsigned char* /* seconds_mark */);
+void ds1302_get_time(uint8_t* /* hours_high */,
+                     uint8_t* /* hours_low  */,
+                     uint8_t* /* minutes_high */,
+                     uint8_t* /* minutes_low  */,
+                     uint8_t* /* seconds_mark */);
 
 /* seconds are reset to 0 on every call */
-void ds1302_set_time(unsigned char /* hours_high */,
-                     unsigned char /* hours_low */,
-                     unsigned char /* minutes_high */,
-                     unsigned char /* minutes_low */);
+void ds1302_set_time(uint8_t /* hours_high */,
+                     uint8_t /* hours_low */,
+                     uint8_t /* minutes_high */,
+                     uint8_t /* minutes_low */);
 
 void ds1302_increase_hour();
 void ds1302_increase_minute();

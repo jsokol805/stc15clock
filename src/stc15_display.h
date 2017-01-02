@@ -2,18 +2,19 @@
 #define __STC15_DISPLAY_H_
 
 #include <8052.h>
+#include <stdint.h>
 
 /* Delay execution by using hardware timer */
 void timer_delay();
 
-void digit(unsigned char /* position */,
-           unsigned char /* value */,
-           unsigned char /* dot */);
+void digit(uint8_t /* position */,
+           uint8_t /* value */,
+           uint8_t /* dot */);
 
-void show_time(unsigned char /* hours_high */,
-               unsigned char /* hours_low  */,
-               unsigned char /* minutes_high */,
-               unsigned char /* minutes_lot  */,
-               unsigned char /* dot */);
+void show_time(uint8_t /* hours_high */,
+               uint8_t /* hours_low  */,
+               uint8_t /* minutes_high */,
+               uint8_t /* minutes_lot  */,
+               uint8_t /* dot */);
 
 #endif  // __STC15_DISPLAY_H_

@@ -4,9 +4,9 @@
 
 #include "ds1302.h"
 
-unsigned char buttons[2] = {0, 0};
+uint8_t buttons[2] = {0, 0};
 
-void button_check(unsigned char index, unsigned char value, void (*action)()) {
+void button_check(uint8_t index, uint8_t value, void (*action)()) {
   if ( buttons[index] != value ) {
     if (value) (*action)();
     buttons[index] = value;

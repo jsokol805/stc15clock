@@ -1,5 +1,7 @@
 #include "stc15w404as.h"
 
+#include <stdint.h>
+
 #include "ds1302.h"
 #include "stc15_buttons.h"
 #include "stc15_display.h"
@@ -35,7 +37,7 @@ void check_low_light() {
 }
 
 void main() {
-  unsigned char hours_high, hours_low, minutes_high, minutes_low, seconds_mark;
+  uint8_t hours_high, hours_low, minutes_high, minutes_low, seconds_mark;
   reset_io();
 
   ds1302_init();

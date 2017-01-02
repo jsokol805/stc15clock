@@ -2,7 +2,7 @@
 
 #define STC15_LIGHT_THRESHOLD 219
 
-unsigned char dusk_value = 0;
+uint8_t dusk_value = 0;
 
 void nop_wait() {
 __asm
@@ -26,7 +26,7 @@ void stc15_update_light_state() {
   dusk_value = ADC_RES;
 }
 
-unsigned char stc15_is_low_light() {
+uint8_t stc15_is_low_light() {
   return dusk_value > STC15_LIGHT_THRESHOLD;
 }
 

@@ -3,6 +3,8 @@
 
 #include "stc15w404as.h"
 
+#include <stdint.h>
+
 #define STC15_DUSK_CHANNEL 6
 
 #define ADC_POWER   0x80
@@ -17,7 +19,7 @@ void stc15_dusk_init();
 
 void stc15_update_light_state();
 
-unsigned char stc15_is_low_light();
+uint8_t stc15_is_low_light();
 
 #endif  // __STC15_DUSK_H_
 

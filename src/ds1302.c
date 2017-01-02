@@ -10,8 +10,8 @@ void _3wire_reset() {
   CE = 1;
 }
 
-void _3wire_write(unsigned char byte) {
-  unsigned char i;
+void _3wire_write(uint8_t byte) {
+  uint8_t i;
 
   for(i = 0; i < 8; ++i) {
     IO = 0;
@@ -24,17 +24,15 @@ void _3wire_write(unsigned char byte) {
   }
 }
 
-unsigned char _3wire_read() {
-  unsigned char i;
-  unsigned char byte;
-  unsigned char tmp;
+uint8_t _3wire_read() {
+  uint8_t i, byte, tmp;
 
   byte = 0x00;
   IO = 1;
   for(i = 0; i < 8; i++) {
     SCLK = 1;
     SCLK = 0;
-    tmp = (unsigned char)IO;
+    tmp = (uint8_t)IO;
     tmp <<= 7;
     byte >>= 1;
     byte |= tmp; 
@@ -42,15 +40,15 @@ unsigned char _3wire_read() {
   return byte;
 }
 
-void ds1302_write(unsigned char address, unsigned char data) {
+void ds1302_write(uint8_t address, uint8_t data) {
   _3wire_reset();
   _3wire_write(address);
   _3wire_write(data);
   _3wire_reset();
 }
 
-unsigned char ds1302_read(unsigned char address) {
-  unsigned char temp;
+uint8_t ds1302_read(uint8_t address) {
+  uint8_t temp;
 
   _3wire_reset();
   _3wire_write(address);
@@ -60,12 +58,12 @@ unsigned char ds1302_read(unsigned char address) {
   return temp;
 }
 
-void ds1302_get_time(unsigned char* hours_high,
-                     unsigned char* hours_low,
-                     unsigned char* minutes_high,
-                     unsigned char* minutes_low,
-                     unsigned char* seconds_mark) {
-  unsigned char hours, minutes, seconds;
+void ds1302_get_time(uint8_t* hours_high,
+                     uint8_t* hours_low,
+                     uint8_t* minutes_high,
+                     uint8_t* minutes_low,
+                     uint8_t* seconds_mark) {
+  uint8_t hours, minutes, seconds;
   hours   = ds1302_read(DS1302_HOUR_READ);
   minutes = ds1302_read(DS1302_MINUTE_READ);
   seconds = ds1302_read(DS1302_SECOND_READ);
@@ -77,11 +75,11 @@ void ds1302_get_time(unsigned char* hours_high,
   *minutes_low  = (minutes & MINUTE_LOW);
 }
 
-void ds1302_set_time(unsigned char hours_high,
-                     unsigned char hours_low,
-                     unsigned char minutes_high,
-                     unsigned char minutes_low) {
-  unsigned char hours, minutes, seconds;
+void ds1302_set_time(uint8_t hours_high,
+                     uint8_t hours_low,
+                     uint8_t minutes_high,
+                     uint8_t minutes_low) {
+  uint8_t hours, minutes, seconds;
 
   hours = (DS1302_MODE24 << 4)
         | (hours_high << 4)
@@ -101,7 +99,7 @@ void ds1302_init() {
 }
 
 void ds1302_increase_hour() {
-  unsigned char hour, tmp;
+  uint8_t hour, tmp;
   tmp  =  ds1302_read(DS1302_HOUR_READ);
   hour = ((tmp & HOUR_HIGH) >> 4) * 10 + (tmp & HOUR_LOW);
   hour = (hour + 1) % 24;
@@ -110,7 +108,7 @@ void ds1302_increase_hour() {
 }
 
 void ds1302_increase_minute() {
-  unsigned char minute, tmp;
+  uint8_t minute, tmp;
   tmp    = ds1302_read(DS1302_MINUTE_READ);
   minute = ((tmp & MINUTE_HIGH) >> 4) * 10 + (tmp & MINUTE_LOW);
   minute = (minute + 1) % 60;

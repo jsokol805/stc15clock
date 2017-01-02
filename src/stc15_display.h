@@ -5,7 +5,7 @@
 #include <stdint.h>
 
 /* Delay execution by using hardware timer */
-void timer_delay();
+void _timer_delay();
 
 void digit(uint8_t /* position */,
            uint8_t /* value */,
@@ -16,5 +16,7 @@ void show_time(uint8_t /* hours_high */,
                uint8_t /* minutes_high */,
                uint8_t /* minutes_lot  */,
                uint8_t /* dot */);
+
+void show_byte(uint8_t /* value */);
 
 #endif  // __STC15_DISPLAY_H_

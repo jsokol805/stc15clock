@@ -25,7 +25,7 @@ uint8_t masks[7] = {
   0xFE, 0xFD, 0xFB, 0xF7, 0xEF, 0xDF, 0xBF
 };
 
-void timer_delay() {
+void _timer_delay() {
   TMOD = 0x01;     // Timer 0, mode 3
   TH0 = 0xFF;
   TR0 = 1;         // Start timer
@@ -45,12 +45,12 @@ void digit(uint8_t pos, uint8_t val, uint8_t dot) {
   /* Light up single segments to ensure even brightness */
   for(i = 0; i < 7; ++i) {
     P2 = masks[i] | digits[val]; 
-    timer_delay();
+    _timer_delay();
   }
 
   /* Append dot */
   P2 = dot ? 0x7F : 0xFF;
-  timer_delay();
+  _timer_delay();
 
   /* Reset segments */
   P2 = 0xFF;
@@ -68,3 +68,9 @@ void show_time(uint8_t hours_high,
   digit(3, hours_high ? hours_high : 10, 0);
 }
 
+void show_byte(uint8_t value) {
+  digit(0, value % 10       , 0 );
+  digit(1, value % 100 / 10 , 0 );
+  digit(2, value / 100      , 0);
+  digit(3, 10               , 0);
+}

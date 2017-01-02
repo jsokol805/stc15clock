@@ -45,7 +45,7 @@ void main() {
 
   while(1) {
     ds1302_get_time(&hours_high, &hours_low, &minutes_high, &minutes_low, &seconds_mark);
-    show_time(hours_high, hours_low, minutes_high, minutes_low, seconds_mark);
+    stc15_show_time(hours_high, hours_low, minutes_high, minutes_low, seconds_mark);
     read_buttons();
     check_low_light();
   }

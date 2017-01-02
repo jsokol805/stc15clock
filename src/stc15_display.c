@@ -34,7 +34,7 @@ void _timer_delay() {
   TF0 = 0;         // Clear flag
 }
 
-void digit(uint8_t pos, uint8_t val, uint8_t dot) {
+void _digit(uint8_t pos, uint8_t val, uint8_t dot) {
   /* Iterator for loop */
   uint8_t i;
 
@@ -56,21 +56,21 @@ void digit(uint8_t pos, uint8_t val, uint8_t dot) {
   P2 = 0xFF;
 }
 
-void show_time(uint8_t hours_high,
-               uint8_t hours_low,
-               uint8_t minutes_high,
-               uint8_t minutes_low,
-               uint8_t seconds_mark) {
-  digit(0, minutes_low, 0);
-  digit(1, minutes_high, 0);
-  digit(2, hours_low, seconds_mark);
+void stc15_show_time(uint8_t hours_high,
+                     uint8_t hours_low,
+                     uint8_t minutes_high,
+                     uint8_t minutes_low,
+                     uint8_t seconds_mark) {
+  _digit(0, minutes_low, 0);
+  _digit(1, minutes_high, 0);
+  _digit(2, hours_low, seconds_mark);
   /* Don't show if last digit if hour < 10 */
-  digit(3, hours_high ? hours_high : 10, 0);
+  _digit(3, hours_high ? hours_high : 10, 0);
 }
 
-void show_byte(uint8_t value) {
-  digit(0, value % 10       , 0 );
-  digit(1, value % 100 / 10 , 0 );
-  digit(2, value / 100      , 0);
-  digit(3, 10               , 0);
+void stc15_show_byte(uint8_t value) {
+  _digit(0, value % 10       , 0 );
+  _digit(1, value % 100 / 10 , 0 );
+  _digit(2, value / 100      , 0);
+  _digit(3, 10               , 0);
 }

@@ -1,8 +1,8 @@
 #include "stc15_dusk.h"
 
-#define STC15_LIGHT_THRESHOLD 219
-
-unsigned char dusk_value = 0;
+uint8_t stc15_dusk_value = 0;
+uint8_t stc15_dusk_activate_threshold = 219;
+uint8_t stc15_dusk_deactivate_threshold = 190;
 
 void nop_wait() {
 __asm
@@ -23,10 +23,20 @@ void stc15_update_light_state() {
   while(!(ADC_CONTR & ADC_FLAG)); /* wait for ADC result */
   ADC_CONTR &= ~ADC_FLAG;
 
-  dusk_value = ADC_RES;
+  stc15_dusk_value = ADC_RES;
 }
 
-unsigned char stc15_is_low_light() {
-  return dusk_value > STC15_LIGHT_THRESHOLD;
+bool stc15_is_low_light() {
+  return stc15_dusk_value > stc15_dusk_activate_threshold;
 }
 
+void stc15_dusk_change_activate_threshold(int8_t value) {
+  int16_t temp = stc15_dusk_activate_threshold + value;
+  if (temp < 0) {
+    stc15_dusk_activate_threshold = 255;
+  } else if (temp > 255) {
+    stc15_dusk_activate_threshold = 0;
+  } else {
+    stc15_dusk_activate_threshold = temp;
+  }
+}

@@ -6,7 +6,7 @@
 * State of 7 segment display
 * Assumes dot to be inactive
 */
-unsigned char digits[11] = {
+uint8_t digits[11] = {
   0xC0, // 0
   0xF9, // 1
   0xA4, // 2
@@ -21,11 +21,11 @@ unsigned char digits[11] = {
 };
 
 /* Masks used to extract single segment value */
-unsigned char masks[7] = {
+uint8_t masks[7] = {
   0xFE, 0xFD, 0xFB, 0xF7, 0xEF, 0xDF, 0xBF
 };
 
-void timer_delay() {
+void _timer_delay() {
   TMOD = 0x01;     // Timer 0, mode 3
   TH0 = 0xFF;
   TR0 = 1;         // Start timer
@@ -34,35 +34,43 @@ void timer_delay() {
   TF0 = 0;         // Clear flag
 }
 
-void digit(unsigned char pos, unsigned char val, unsigned char dot) {
-  unsigned char i;
+void _digit(uint8_t pos, uint8_t val, uint8_t dot) {
+  /* Iterator for loop */
+  uint8_t i;
 
-  /* reset bits P3_2..5 */
+  /* Reset bits P3_2..5 */
   P3 &= 0xC3;
   P3 |= 4 << (3 - pos);
 
   /* Light up single segments to ensure even brightness */
   for(i = 0; i < 7; ++i) {
     P2 = masks[i] | digits[val]; 
-    timer_delay();
+    _timer_delay();
   }
 
+  /* Append dot */
   P2 = dot ? 0x7F : 0xFF;
-  timer_delay();
+  _timer_delay();
 
   /* Reset segments */
   P2 = 0xFF;
 }
 
-void show_time(unsigned char hours_high,
-               unsigned char hours_low,
-               unsigned char minutes_high,
-               unsigned char minutes_low,
-               unsigned char seconds_mark) {
-  digit(0, minutes_low, 0);
-  digit(1, minutes_high, 0);
-  digit(2, hours_low, seconds_mark);
+void stc15_show_time(uint8_t hours_high,
+                     uint8_t hours_low,
+                     uint8_t minutes_high,
+                     uint8_t minutes_low,
+                     uint8_t seconds_mark) {
+  _digit(0, minutes_low, 0);
+  _digit(1, minutes_high, 0);
+  _digit(2, hours_low, seconds_mark);
   /* Don't show if last digit if hour < 10 */
-  digit(3, hours_high ? hours_high : 10, 0);
+  _digit(3, hours_high ? hours_high : 10, 0);
 }
 
+void stc15_show_byte(uint8_t value) {
+  _digit(0, value % 10       , 0 );
+  _digit(1, value % 100 / 10 , 0 );
+  _digit(2, value / 100      , 0);
+  _digit(3, 10               , 0);
+}

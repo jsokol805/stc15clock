@@ -1,11 +1,13 @@
+CFLAGS = -mmcs51 --std-c99
+
 %.hex : %.ihx
 	packihx $< > $@
 
 %.ihx : %.c stc15_buttons.rel stc15_dusk.rel stc15_display.rel ds1302.rel
-	sdcc -mmcs51 $^
+	sdcc ${CFLAGS} $^
 
 %.rel : %.c %.h
-	sdcc -mmcs51 -c $<
+	sdcc ${CFLAGS} -c $<
 
 .PHONY: all
 all: stc15clock.hex

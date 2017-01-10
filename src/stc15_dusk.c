@@ -26,6 +26,10 @@ void stc15_update_light_state() {
   stc15_dusk_value = ADC_RES;
 }
 
+bool stc15_can_exit_low_light() {
+  return stc15_dusk_value < stc15_dusk_deactivate_threshold;
+}
+
 bool stc15_is_low_light() {
   return stc15_dusk_value > stc15_dusk_activate_threshold;
 }
@@ -38,5 +42,16 @@ void stc15_dusk_change_activate_threshold(int8_t value) {
     stc15_dusk_activate_threshold = 0;
   } else {
     stc15_dusk_activate_threshold = temp;
+  }
+}
+
+void stc15_dusk_change_deactivate_threshold(int8_t value) {
+  int16_t temp = stc15_dusk_deactivate_threshold + value;
+  if (temp < 0) {
+    stc15_dusk_deactivate_threshold = 255;
+  } else if (temp > 255) {
+    stc15_dusk_deactivate_threshold = 0;
+  } else {
+    stc15_dusk_deactivate_threshold = temp;
   }
 }

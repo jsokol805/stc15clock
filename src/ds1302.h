@@ -12,8 +12,8 @@
 #define MINUTE_HIGH 0x70
 #define MINUTE_LOW  0x0F
 
-#define DS1302_MODE12      0x00
-#define DS1302_MODE24      0x01
+#define DS1302_MODE12      0x70
+#define DS1302_MODE24      0x00
 
 #define DS1302_HOUR_READ   0x85
 #define DS1302_MINUTE_READ 0x83

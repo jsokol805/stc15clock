@@ -45,16 +45,29 @@ void check_low_light() {
 }
 
 void check_buttons() {
-  if(stc15_button_check(UPPER_BTN, UPPER_PIN))
+  stc15_button_scan();
+
+  if(stc15_both_button_pressed())
     current_state = (current_state + 1) % CLOCK_STATE_COUNT;
 
-  if(stc15_button_check(LOWER_BTN, LOWER_PIN)) {
+  if(stc15_button_check(LOWER_BTN)) {
     switch(current_state) {
       case TIME:
         ds1302_increase_minute();
         break;
       case DUSK_SETTING:
         stc15_dusk_change_activate_threshold(1);
+        break;
+    }
+  }
+
+  if(stc15_button_check(UPPER_BTN)) {
+    switch(current_state) {
+      case TIME:
+        ds1302_increase_hour();
+        break;
+      case DUSK_SETTING:
+        stc15_dusk_change_activate_threshold(-1);
         break;
     }
   }

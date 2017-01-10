@@ -9,7 +9,8 @@
 
 enum CLOCK_STATE {
   TIME = 0,
-  DUSK_SETTING,
+  DUSK_ACTIVATION_SET,
+  DUSK_DEACTIVATION_SET,
   CLOCK_STATE_COUNT
 };
 
@@ -36,7 +37,7 @@ void check_low_light() {
     P2M1 = 0x00;
     P3M0 &= 0xC3;
     P3M1 &= 0xC3;
-  } else {
+  } else if (stc15_can_exit_low_light()) {
     P2M0 = 0xFF;
     P2M1 = 0x00;
     P3M0 |= 0x3C;
@@ -55,8 +56,11 @@ void check_buttons() {
       case TIME:
         ds1302_increase_minute();
         break;
-      case DUSK_SETTING:
+      case DUSK_ACTIVATION_SET:
         stc15_dusk_change_activate_threshold(1);
+        break;
+      case DUSK_DEACTIVATION_SET:
+        stc15_dusk_change_deactivate_threshold(1);
         break;
     }
   }
@@ -66,8 +70,11 @@ void check_buttons() {
       case TIME:
         ds1302_increase_hour();
         break;
-      case DUSK_SETTING:
+      case DUSK_ACTIVATION_SET:
         stc15_dusk_change_activate_threshold(-1);
+        break;
+      case DUSK_DEACTIVATION_SET:
+        stc15_dusk_change_deactivate_threshold(-1);
         break;
     }
   }
@@ -91,8 +98,11 @@ void main() {
                         minutes_high, minutes_low,
                         seconds_mark);
         break;
-      case DUSK_SETTING:
+      case DUSK_ACTIVATION_SET:
         stc15_show_byte(stc15_dusk_activate_threshold);
+        break;
+      case DUSK_DEACTIVATION_SET:
+        stc15_show_byte(stc15_dusk_deactivate_threshold);
         break;
     }
     check_low_light();

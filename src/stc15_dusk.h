@@ -24,10 +24,15 @@ void stc15_dusk_init();
 
 void stc15_update_light_state();
 
+bool stc15_can_exit_low_light();
+
 bool stc15_is_low_light();
 
 /* value is set to 0 on overflow, 255 on underflow */
 void stc15_dusk_change_activate_threshold(int8_t /* value */);
+
+/* value is set to 0 on overflow, 255 on underflow */
+void stc15_dusk_change_deactivate_threshold(int8_t /* value */);
 
 #endif  // __STC15_DUSK_H_
 

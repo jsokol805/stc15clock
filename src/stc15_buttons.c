@@ -37,24 +37,23 @@ void stc15_button_scan() {
   values[LOWER_BTN] = LOWER_PIN;
 
   for( loop = 0; loop < BUTTON_NUM; loop++ ) {
-    switch (_buttons_state[loop]) {
-      case BUTTON_OFF:
-        _buttons[loop] += values[loop] ? -_buttons[loop] : 1;
+    if (_buttons_state[loop] == BUTTON_OFF) {
+      if (values[loop]) {
+        _buttons[loop] = 0;
+      } else {
+        _buttons[loop]++;
+      }
 
-        if (_buttons[loop] > BUTTON_ACTIVATION_TICKS) {
-          _buttons_state[loop] = BUTTON_PRESS;
-        } else if (_buttons[loop] && 
-                   _buttons[loop] < _buttons[BUTTON_NUM - loop - 1]) {
-          // Sync up values to properly detect both button press
-          _buttons[loop] = _buttons[BUTTON_NUM - loop - 1];
-        }
-        break;
-      case BUTTON_PRESS:
-      case BUTTON_PRESSED:
-      default:
-        if (values[loop])
-          _buttons_state[loop] = BUTTON_OFF;
-        break;
+      if (_buttons[loop] > BUTTON_ACTIVATION_TICKS) {
+        _buttons_state[loop] = BUTTON_PRESS;
+      } else if (_buttons[loop] &&
+                 _buttons[loop] < _buttons[BUTTON_NUM - loop - 1]) {
+      // Sync up values to properly detect both button press
+      _buttons[loop] = _buttons[BUTTON_NUM - loop - 1];
+      }
+
+    } else if (values[loop]) {
+      _buttons_state[loop] = BUTTON_OFF;
     }
   }
 }

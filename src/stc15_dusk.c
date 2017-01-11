@@ -1,8 +1,13 @@
 #include "stc15_dusk.h"
 
+#include "ds1302.h"
+
+#define ACTIVATE_RAM_READ  0xC1
+#define ACTIVATE_RAM_WRITE 0xC0
+#define DEACTIVATE_RAM_READ  0xC3
+#define DEACTIVATE_RAM_WRITE 0xC2
+
 uint8_t _dusk_value = 0;
-uint8_t _dusk_activate_threshold = 219;
-uint8_t _dusk_deactivate_threshold = 190;
 
 void nop_wait() {
 __asm
@@ -11,19 +16,19 @@ __endasm;
 }
 
 uint8_t stc15_dusk_activate_threshold() {
-  return _dusk_activate_threshold;
+  return ds1302_read(ACTIVATE_RAM_READ);
 }
 
 uint8_t stc15_dusk_deactivate_threshold() {
-  return _dusk_deactivate_threshold;
+  return ds1302_read(DEACTIVATE_RAM_READ);
 }
 
 void _set_dusk_activate_threshold(uint8_t val) {
-  _dusk_activate_threshold = val;
+  ds1302_write(ACTIVATE_RAM_WRITE, val);
 }
 
 void _set_dusk_deactivate_threshold(uint8_t val) {
-  _dusk_deactivate_threshold = val;
+  ds1302_write(DEACTIVATE_RAM_WRITE, val);
 }
 
 
@@ -32,8 +37,6 @@ void stc15_dusk_init() {
   P1ASF |= 1 << STC15_DUSK_CHANNEL;
   ADC_RES = 0;
   ADC_CONTR = ADC_POWER | ADC_SPEEDLL;
-
-  /* read thresholds from ds1302 */
 }
 
 void stc15_update_light_state() {

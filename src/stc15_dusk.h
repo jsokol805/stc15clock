@@ -16,10 +16,6 @@
 #define ADC_SPEEDH  0x40
 #define ADC_SPEEDHH 0x60
 
-extern uint8_t stc15_dusk_value;
-extern uint8_t stc15_dusk_activate_threshold;
-extern uint8_t stc15_dusk_deactivate_threshold;
-
 void stc15_dusk_init();
 
 void stc15_update_light_state();
@@ -33,6 +29,9 @@ void stc15_dusk_change_activate_threshold(int8_t /* value */);
 
 /* value is set to 0 on overflow, 255 on underflow */
 void stc15_dusk_change_deactivate_threshold(int8_t /* value */);
+
+uint8_t stc15_dusk_activate_threshold();
+uint8_t stc15_dusk_deactivate_threshold();
 
 #endif  // __STC15_DUSK_H_
 

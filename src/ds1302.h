@@ -40,6 +40,8 @@ void ds1302_init();
 
 void ds1302_write(uint8_t /* address */, uint8_t /* data */);
 
+uint8_t ds1302_read(uint8_t /* address */);
+
 void ds1302_get_time(uint8_t* /* hours_high */,
                      uint8_t* /* hours_low  */,
                      uint8_t* /* minutes_high */,

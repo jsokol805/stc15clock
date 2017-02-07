@@ -35,17 +35,17 @@ void _timer_delay() {
 }
 
 void _digit(uint8_t pos, uint8_t val, uint8_t dot) {
-  /* Iterator for loop */
-  uint8_t i;
-
   /* Reset bits P3_2..5 */
   P3 &= 0xC3;
   P3 |= 4 << (3 - pos);
 
-  /* Light up single segments to ensure even brightness */
-  for(i = 0; i < 7; ++i) {
-    P2 = masks[i] | digits[val]; 
-    _timer_delay();
+  {
+    /* Light up single segments to ensure even brightness */
+    uint8_t i;
+    for(i = 0; i < 7; ++i) {
+      P2 = masks[i] | digits[val];
+      _timer_delay();
+    }
   }
 
   /* Append dot */

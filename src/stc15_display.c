@@ -38,17 +38,14 @@ void _digit(uint8_t pos, uint8_t val, uint8_t dot) {
   /* Iterator for loop */
   uint8_t i;
 
-#pragma save
-#pragma disable_warning 126
   /* Reset bits P3_2..5 */
-  if (COMMON_PIN_ACTIVE_STATE) {
+#ifdef COMMON_PIN_ACTIVE_STATE
     P3 &= 0xC3;
     P3 |= 4 << (3 - pos);
-  } else {
+#else    
     P3 |= 0x3C;
     P3 &= ~(4 << (3 - pos));
-  }
-#pragma restore
+#endif
 
   /* Light up single segments to ensure even brightness */
   for(i = 0; i < 7; ++i) {

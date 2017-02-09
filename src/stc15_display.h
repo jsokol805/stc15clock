@@ -1,8 +1,9 @@
 #ifndef __STC15_DISPLAY_H_
 #define __STC15_DISPLAY_H_
 
-#include <8052.h>
 #include <stdint.h>
+
+#define COMMON_PIN_ACTIVE_STATE 1
 
 /* Delay execution by using hardware timer */
 void _timer_delay();

@@ -86,6 +86,10 @@ void main() {
 
   ds1302_init();
   stc15_dusk_init();
+  ds1302_get_time(&hours_high, &hours_low,
+                  &minutes_high, &minutes_low,
+                  &seconds_mark);
+  ds1302_run_clock();
 
   while(1) {
     check_buttons();
@@ -99,10 +103,10 @@ void main() {
                         seconds_mark);
         break;
       case DUSK_ACTIVATION_SET:
-        stc15_show_byte(stc15_dusk_activate_threshold());
+        stc15_show_byte(stc15_dusk_activate_threshold(), 'A');
         break;
       case DUSK_DEACTIVATION_SET:
-        stc15_show_byte(stc15_dusk_deactivate_threshold());
+        stc15_show_byte(stc15_dusk_deactivate_threshold(), 'd');
         break;
     }
     check_low_light();

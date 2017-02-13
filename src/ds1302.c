@@ -116,3 +116,11 @@ void ds1302_increase_minute() {
   ds1302_write(DS1302_MINUTE_WRITE, tmp);
 }
 
+void ds1302_run_clock() {
+  uint8_t tmp;
+  tmp = ds1302_read(DS1302_SECOND_READ);
+  /* zero-out clock halt bit */
+  tmp &= 0x7F;
+  ds1302_write(DS1302_SECOND_WRITE, tmp);
+}
+

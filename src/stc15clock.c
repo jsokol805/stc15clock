@@ -86,6 +86,10 @@ void main() {
 
   ds1302_init();
   stc15_dusk_init();
+  ds1302_get_time(&hours_high, &hours_low,
+                  &minutes_high, &minutes_low,
+                  &seconds_mark);
+  ds1302_run_clock();
 
   while(1) {
     check_buttons();

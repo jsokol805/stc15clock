@@ -56,8 +56,9 @@ void ds1302_set_time(uint8_t /* hours_high */,
 
 void ds1302_increase_hour();
 
-/* when minute overflows, it increases hour */
 void ds1302_increase_minute();
+
+void ds1302_run_clock();
 
 #endif  // __STC15_DS1302_H_
 

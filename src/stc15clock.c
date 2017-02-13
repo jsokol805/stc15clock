@@ -103,10 +103,10 @@ void main() {
                         seconds_mark);
         break;
       case DUSK_ACTIVATION_SET:
-        stc15_show_byte(stc15_dusk_activate_threshold());
+        stc15_show_byte(stc15_dusk_activate_threshold(), 'A');
         break;
       case DUSK_DEACTIVATION_SET:
-        stc15_show_byte(stc15_dusk_deactivate_threshold());
+        stc15_show_byte(stc15_dusk_deactivate_threshold(), 'd');
         break;
     }
     check_low_light();

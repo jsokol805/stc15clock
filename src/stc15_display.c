@@ -25,6 +25,21 @@ uint8_t masks[7] = {
   0xFE, 0xFD, 0xFB, 0xF7, 0xEF, 0xDF, 0xBF
 };
 
+uint8_t _digit_value(uint8_t digit) {
+  return digits[digit];
+}
+
+uint8_t _char_value(char mark) {
+  switch(mark) {
+    case 'A':
+      return 0x88;
+    case 'd':
+      return 0xA1;
+    default:
+      return 0xFF;
+  }
+}
+
 void _timer_delay() {
   TMOD = 0x01;     // Timer 0, mode 3
   TH0 = 0xFF;
@@ -35,6 +50,14 @@ void _timer_delay() {
 }
 
 void _digit(uint8_t pos, uint8_t val, uint8_t dot) {
+  _display(pos, _digit_value(val), dot);
+}
+
+void _char(uint8_t pos, char val, uint8_t dot) {
+  _display(pos, _char_value(val), dot);
+}
+
+void _display(uint8_t pos, uint8_t val, uint8_t dot) {
   /* Reset bits P3_2..5 */
 #ifdef COMMON_PIN_ACTIVE_STATE
     P3 &= 0xC3;
@@ -48,7 +71,7 @@ void _digit(uint8_t pos, uint8_t val, uint8_t dot) {
     /* Light up single segments to ensure even brightness */
     uint8_t i;
     for(i = 0; i < 7; ++i) {
-      P2 = masks[i] | digits[val];
+      P2 = masks[i] | val;
       _timer_delay();
     }
   }
@@ -73,9 +96,10 @@ void stc15_show_time(uint8_t hours_high,
   _digit(3, hours_high ? hours_high : 10, 0);
 }
 
-void stc15_show_byte(uint8_t value) {
-  _digit(0, value % 10       , 0 );
-  _digit(1, value % 100 / 10 , 0 );
+void stc15_show_byte(uint8_t value, char mark) {
+  _digit(0, value % 10       , 0);
+  _digit(1, value % 100 / 10 , 0);
   _digit(2, value / 100      , 0);
-  _digit(3, 10               , 0);
+  _char (3, mark             , 0);
 }
+

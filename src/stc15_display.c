@@ -59,7 +59,7 @@ void _char(uint8_t pos, char val, uint8_t dot) {
 
 void _display(uint8_t pos, uint8_t val, uint8_t dot) {
   /* Reset bits P3_2..5 */
-#ifdef COMMON_PIN_ACTIVE_STATE
+#if COMMON_PIN_ACTIVE_STATE
     P3 &= 0xC3;
     P3 |= 4 << (3 - pos);
 #else    
